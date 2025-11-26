@@ -89,13 +89,14 @@ public class Ex1 {
         double[] Polynom = new double[]{b, a};
         return Polynom;
     }
+
     public static double[] polynom3Points(double[] xx, double[] yy) {
-        double x1 = xx[0], x2 = xx[1], x3 = xx[2] ,y1 = yy[0], y2 = yy[1] ,y3 = yy[2];
+        double x1 = xx[0], x2 = xx[1], x3 = xx[2], y1 = yy[0], y2 = yy[1], y3 = yy[2];
         double denom = (x1 - x2) * (x1 - x3) * (x2 - x3);
-        double A     = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / denom;
-        double B     = (x3*x3 * (y1 - y2) + x2*x2 * (y3 - y1) + x1*x1 * (y2 - y3)) / denom;
-        double C     = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom;
-        double[ ] Polynom =  new double[]{C,B,A};
+        double A = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / denom;
+        double B = (x3 * x3 * (y1 - y2) + x2 * x2 * (y3 - y1) + x1 * x1 * (y2 - y3)) / denom;
+        double C = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom;
+        double[] Polynom = new double[]{C, B, A};
         return Polynom;
     }
 
@@ -109,10 +110,34 @@ public class Ex1 {
      */
     public static boolean equals(double[] p1, double[] p2) {
         boolean ans = true;
-        /** add you code below
 
-         /////////////////// */
+        if (p1.length > p2.length) {
+            p2 = fixArr(p1, p2);
+        }
+        if (p1.length < p2.length) {
+            p1 = fixArr(p2, p1);
+        }
+        int len = p1.length;
+        for (int i = 0; i < len; i++) {
+            if (Math.abs(p1[i] - p2[i]) <= EPS) {
+            }
+            else {
+                return false;
+            }
+        }
         return ans;
+    }
+
+    public static double[] fixArr(double[] bigger, double[] smaller) {
+        int lenB = bigger.length;
+        int lenS = smaller.length;
+        double[] temp = new double[lenB];
+        for (int i = 0; i < lenB; i++) {
+            if (i < lenS) {
+                temp[i] = smaller[i];
+            } else temp[i] = 0;
+        }
+        return temp;
     }
 
     /**
