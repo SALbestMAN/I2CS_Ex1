@@ -77,11 +77,26 @@ public class Ex1 {
         int lx = xx.length;
         int ly = yy.length;
         if (xx != null && yy != null && lx == ly && lx > 1 && lx < 4) {
-            /** add you code below
-
-             /////////////////// */
+            if (lx == 2) return polynom2Points(xx, yy);
+            if (lx == 3) return polynom3Points(xx, yy);
         }
         return ans;
+    }
+
+    public static double[] polynom2Points(double[] xx, double[] yy) {
+        double a = (yy[1] - yy[0]) / (xx[1] - xx[0]);
+        double b = yy[0] - a * xx[0];
+        double[] Polynom = new double[]{b, a};
+        return Polynom;
+    }
+    public static double[] polynom3Points(double[] xx, double[] yy) {
+        double x1 = xx[0], x2 = xx[1], x3 = xx[2] ,y1 = yy[0], y2 = yy[1] ,y3 = yy[2];
+        double denom = (x1 - x2) * (x1 - x3) * (x2 - x3);
+        double A     = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / denom;
+        double B     = (x3*x3 * (y1 - y2) + x2*x2 * (y3 - y1) + x1*x1 * (y2 - y3)) / denom;
+        double C     = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom;
+        double[ ] Polynom =  new double[]{C,B,A};
+        return Polynom;
     }
 
     /**
