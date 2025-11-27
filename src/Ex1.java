@@ -198,10 +198,16 @@ public class Ex1 {
      */
     public static double sameValue(double[] p1, double[] p2, double x1, double x2, double eps) {
         double ans = x1;
-        /** add you code below
-
-         /////////////////// */
-        return ans;
+        double f1 = f(p1, x1) - f(p2, x1);
+        double mid = (x1 + x2) / 2;
+        double fmid = f(p1, mid) - f(p2, mid);
+        if (Math.abs(fmid ) < eps) {
+            return mid;
+        }
+        if (f1 * fmid <= 0) {
+            return sameValue(p1, p2, x1, mid, eps);
+        }
+        else return sameValue(p1, p2, mid, x2, eps);
     }
 
     /**
@@ -221,6 +227,7 @@ public class Ex1 {
         double ans = x1;
         /** add you code below
 
+         */
          /////////////////// */
         return ans;
     }
