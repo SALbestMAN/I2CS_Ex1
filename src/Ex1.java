@@ -148,12 +148,39 @@ public class Ex1 {
      */
     public static String poly(double[] poly) {
         String ans = "";
+        String[] fixed = new String[poly.length];
+        fixed = fixedPoly(poly);
+        int len = poly.length;
         if (poly.length == 0) {
             ans = "0";
         } else {
-            /** add you code below
-
-             /////////////////// */
+            for (int i = len-1; i >= 0; i--) {
+                if (poly[i] == 0) {
+                } else if (i == 0) {
+                    ans += fixed[i];
+                } else if (i==1){
+                    ans += fixed[i]+"x";
+                }
+                else{
+                    ans += fixed[i]+"x^"+i;
+                }
+            }
+        }
+        return ans;
+    }
+    public static String[] fixedPoly(double[] poly) {
+        String[] ans = new String[poly.length];
+        for (int i = 0; i < ans.length; i++) {
+            if (i == ans.length-1) {
+                ans[i] = ""+poly[i];
+                break;
+            }
+            if (poly[i] >= 0) {
+                ans[i] = " +" + poly[i];
+            }
+            else {
+                ans[i] = " "+poly[i];
+            }
         }
         return ans;
     }
