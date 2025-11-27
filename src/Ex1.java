@@ -120,8 +120,7 @@ public class Ex1 {
         int len = p1.length;
         for (int i = 0; i < len; i++) {
             if (Math.abs(p1[i] - p2[i]) <= EPS) {
-            }
-            else {
+            } else {
                 return false;
             }
         }
