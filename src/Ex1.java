@@ -154,32 +154,31 @@ public class Ex1 {
         if (poly.length == 0) {
             ans = "0";
         } else {
-            for (int i = len-1; i >= 0; i--) {
+            for (int i = len - 1; i >= 0; i--) {
                 if (poly[i] == 0) {
                 } else if (i == 0) {
                     ans += fixed[i];
-                } else if (i==1){
-                    ans += fixed[i]+"x";
-                }
-                else{
-                    ans += fixed[i]+"x^"+i;
+                } else if (i == 1) {
+                    ans += fixed[i] + "x";
+                } else {
+                    ans += fixed[i] + "x^" + i;
                 }
             }
         }
         return ans;
     }
+
     public static String[] fixedPoly(double[] poly) {
         String[] ans = new String[poly.length];
         for (int i = 0; i < ans.length; i++) {
-            if (i == ans.length-1) {
-                ans[i] = ""+poly[i];
+            if (i == ans.length - 1) {
+                ans[i] = "" + poly[i];
                 break;
             }
             if (poly[i] >= 0) {
                 ans[i] = " +" + poly[i];
-            }
-            else {
-                ans[i] = " "+poly[i];
+            } else {
+                ans[i] = " " + poly[i];
             }
         }
         return ans;
@@ -201,13 +200,12 @@ public class Ex1 {
         double f1 = f(p1, x1) - f(p2, x1);
         double mid = (x1 + x2) / 2;
         double fmid = f(p1, mid) - f(p2, mid);
-        if (Math.abs(fmid ) < eps) {
+        if (Math.abs(fmid) < eps) {
             return mid;
         }
         if (f1 * fmid <= 0) {
             return sameValue(p1, p2, x1, mid, eps);
-        }
-        else return sameValue(p1, p2, mid, x2, eps);
+        } else return sameValue(p1, p2, mid, x2, eps);
     }
 
     /**
@@ -224,11 +222,19 @@ public class Ex1 {
      * @return the length approximation of the function between f(x1) and f(x2).
      */
     public static double length(double[] p, double x1, double x2, int numberOfSegments) {
-        double ans = x1;
-        /** add you code below
-
-         */
-         /////////////////// */
+        double ans = 0;
+        double dis = (x2 - x1) / numberOfSegments;
+        double lastX = x1;
+        double lastY = f(p, lastX);
+        double currentX, currentY , segments;
+        for (int i = 0; i < numberOfSegments; i++) {
+            currentX = lastX+dis;
+            currentY = f(p, currentX);
+            segments = Math.sqrt(Math.pow(currentX-lastX, 2) + Math.pow(currentY-lastY, 2));
+            ans += segments;
+            lastX = currentX;
+            lastY = currentY;
+        }
         return ans;
     }
 
