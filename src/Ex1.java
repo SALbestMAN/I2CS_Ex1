@@ -249,6 +249,7 @@ public class Ex1 {
      * @param x2                - maximal value of the range
      * @param numberOfTrapezoid - a natural number representing the number of Trapezoids between x1 and x2.
      * @return the approximated area between the two polynomial functions within the [x1,x2] range.
+     *
      */
     public static double area(double[] p1, double[] p2, double x1, double x2, int numberOfTrapezoid) {
         double ans = 0;
