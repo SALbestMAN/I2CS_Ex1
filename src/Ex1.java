@@ -109,34 +109,26 @@ public class Ex1 {
      * @return true iff p1 represents the same polynomial function as p2.
      */
     public static boolean equals(double[] p1, double[] p2) {
-        boolean ans = true;
-
-        if (p1.length > p2.length) {
-            p2 = fixArr(p1, p2);
-        }
-        if (p1.length < p2.length) {
-            p1 = fixArr(p2, p1);
-        }
-        int len = p1.length;
-        for (int i = 0; i < len; i++) {
-            if (Math.abs(p1[i] - p2[i]) <= EPS) {
-            } else {
+        double[] a = trimZeros(p1);
+        double[] b = trimZeros(p2);
+        if (a.length != b.length) return false;
+        for (int i = 0; i < a.length; i++) {
+            if (Math.abs(a[i] - b[i]) > EPS) {
                 return false;
             }
         }
-        return ans;
+        return true;
     }
-
-    public static double[] fixArr(double[] bigger, double[] smaller) {
-        int lenB = bigger.length;
-        int lenS = smaller.length;
-        double[] temp = new double[lenB];
-        for (int i = 0; i < lenB; i++) {
-            if (i < lenS) {
-                temp[i] = smaller[i];
-            } else temp[i] = 0;
+    public static double[] trimZeros(double[] p) {
+        int last = p.length - 1;
+        while (last > 0 && p[last] == 0) {
+            last--;
         }
-        return temp;
+        double[] ans = new double[last + 1];
+        for (int i = 0; i <= last; i++) {
+            ans[i] = p[i];
+        }
+        return ans;
     }
 
     /**
@@ -226,11 +218,11 @@ public class Ex1 {
         double dis = (x2 - x1) / numberOfSegments;
         double lastX = x1;
         double lastY = f(p, lastX);
-        double currentX, currentY , segments;
+        double currentX, currentY, segments;
         for (int i = 0; i < numberOfSegments; i++) {
-            currentX = lastX+dis;
+            currentX = lastX + dis;
             currentY = f(p, currentX);
-            segments = Math.sqrt(Math.pow(currentX-lastX, 2) + Math.pow(currentY-lastY, 2));
+            segments = Math.sqrt(Math.pow(currentX - lastX, 2) + Math.pow(currentY - lastY, 2));
             ans += segments;
             lastX = currentX;
             lastY = currentY;
@@ -249,18 +241,17 @@ public class Ex1 {
      * @param x2                - maximal value of the range
      * @param numberOfTrapezoid - a natural number representing the number of Trapezoids between x1 and x2.
      * @return the approximated area between the two polynomial functions within the [x1,x2] range.
-     *
      */
     public static double area(double[] p1, double[] p2, double x1, double x2, int numberOfTrapezoid) {
         double ans = 0;
         double dis = (x2 - x1) / numberOfTrapezoid;
         double lastX = x1;
         double lastY = Math.abs(f(p1, lastX) - f(p2, lastX));
-        double currentX, currentY , area;
+        double currentX, currentY, area;
         for (int i = 0; i < numberOfTrapezoid; i++) {
-            currentX = lastX+dis;
+            currentX = lastX + dis;
             currentY = Math.abs(f(p1, currentX) - f(p2, currentX));
-            area = (currentY+lastY)/2 * dis;
+            area = (currentY + lastY) / 2 * dis;
             ans += area;
             lastX = currentX;
             lastY = currentY;
@@ -284,12 +275,12 @@ public class Ex1 {
         }
         String[] splitted = p.split("\\+");
         double[] polynom = makeArr(splitted);
-        double coefficient=0;
-        int pow = 0 , indexX,indexPow;
+        double coefficient = 0;
+        int pow = 0, indexX, indexPow;
         String split;
         for (int i = 0; i < splitted.length; i++) {
             split = splitted[i];
-            if(!split.equals("")){
+            if (!split.equals("")) {
                 if (split.contains("x^")) {
                     indexX = split.indexOf("x");
                     indexPow = split.indexOf("^");
@@ -298,16 +289,14 @@ public class Ex1 {
                     else if (start.equals("-")) coefficient = -1;
                     else coefficient = Double.parseDouble(start);
                     pow = Integer.parseInt(split.substring(indexPow + 1));
-                }
-                else if (split.contains("x")) {
+                } else if (split.contains("x")) {
                     indexX = split.indexOf("x");
                     String c = split.substring(0, indexX);
                     if (c.equals("") || c.equals("+")) coefficient = 1;
                     else if (c.equals("-")) coefficient = -1;
                     else coefficient = Double.parseDouble(c);
                     pow = 1;
-                }
-                else {
+                } else {
                     coefficient = Double.parseDouble(split);
                     pow = 0;
                 }
@@ -316,21 +305,21 @@ public class Ex1 {
         }
         return polynom;
     }
-    public static double[] makeArr(String[] splitted) {
-            int maxPow = 0;
-            for (int i = 0; i < splitted.length; i++) {
-                String temp = splitted[i];
 
-                if (temp.contains("^")) {
-                    int pow = Integer.parseInt (temp.substring(temp.indexOf("^") + 1));
-                    if (pow > maxPow) maxPow = pow;
-                }
-                else if (temp.contains("x")) {
-                    if (maxPow < 1) maxPow = 1;
-                }
+    public static double[] makeArr(String[] splitted) {
+        int maxPow = 0;
+        for (int i = 0; i < splitted.length; i++) {
+            String temp = splitted[i];
+
+            if (temp.contains("^")) {
+                int pow = Integer.parseInt(temp.substring(temp.indexOf("^") + 1));
+                if (pow > maxPow) maxPow = pow;
+            } else if (temp.contains("x")) {
+                if (maxPow < 1) maxPow = 1;
             }
-            double[] ans = new double[maxPow + 1];
-            return ans;
+        }
+        double[] ans = new double[maxPow + 1];
+        return ans;
     }
 
     /**
@@ -354,7 +343,17 @@ public class Ex1 {
         }
         return ans;
     }
-
+    public static double[] fixArr(double[] bigger, double[] smaller) {
+        int lenB = bigger.length;
+        int lenS = smaller.length;
+        double[] temp = new double[lenB];
+        for (int i = 0; i < lenB; i++) {
+            if (i < lenS) {
+                temp[i] = smaller[i];
+            } else temp[i] = 0;
+        }
+        return temp;
+    }
     /**
      * This function computes the polynomial function which is the multiplication of two polynoms (p1,p2)
      *
@@ -363,10 +362,10 @@ public class Ex1 {
      * @return
      */
     public static double[] mul(double[] p1, double[] p2) {
-        double[] ans = new double[p1.length+p2.length-1];
+        double[] ans = new double[p1.length + p2.length - 1];
         for (int i = 0; i < p1.length; i++) {
             for (int j = 0; j < p2.length; j++) {
-                ans[i+j]=p1[i]*p2[j];
+                ans[i + j] += p1[i] * p2[j];
             }
         }
         return ans;
@@ -379,10 +378,13 @@ public class Ex1 {
      * @return
      */
     public static double[] derivative(double[] po) {
-        double[] ans = ZERO;//
-        /** add you code below
-
-         /////////////////// */
+        double[] ans = new double[po.length - 1];
+        if (po.length <= 1) {
+            return new double[]{0};
+        }
+        for (int i = 1; i < po.length; i++) {
+            ans[i - 1] = i * po[i];
+        }
         return ans;
     }
 }
