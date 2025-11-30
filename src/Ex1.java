@@ -363,10 +363,12 @@ public class Ex1 {
      * @return
      */
     public static double[] mul(double[] p1, double[] p2) {
-        double[] ans = ZERO;//
-        /** add you code below
-
-         /////////////////// */
+        double[] ans = new double[p1.length+p2.length-1];
+        for (int i = 0; i < p1.length; i++) {
+            for (int j = 0; j < p2.length; j++) {
+                ans[i+j]=p1[i]*p2[j];
+            }
+        }
         return ans;
     }
 
