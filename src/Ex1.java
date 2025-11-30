@@ -227,7 +227,7 @@ public class Ex1 {
      *      (Because there's nothing to print lol).
      *   3. Otherwise, we loop from the highest power to the lowest.
      *      For each index i:
-     *      - if poly[i] == 0 we skip it because zero terms don’t show up in the final string.
+     *      - if poly[i] == 0 → I skip it because zero terms don’t show up in the final string.
      *      - if i == 0  this is the constant term, so we add fixed[i] only.
      *      - if i == 1  this is the x term, so we add fixed[i] + "x".
      *      - if i >= 2  this is x^i, so we add fixed[i] + "x^" + i.
