@@ -277,12 +277,60 @@ public class Ex1 {
      * @return
      */
     public static double[] getPolynomFromString(String p) {
-        double[] ans = ZERO;//  -1.0x^2 +3.0x +2.0
-        /** add you code below
-         *
-         */
-         /////////////////// */
-        return ans;
+        p = p.replace(" ", "");//  -1.0x^2+3.0x+2.0
+        p = p.replace("-", "+-");
+        if (p.charAt(0) == '+') {
+            p = p.substring(1);
+        }
+        String[] splitted = p.split("\\+");
+        double[] polynom = makeArr(splitted);
+        double coefficient=0;
+        int pow = 0 , indexX,indexPow;
+        String split;
+        for (int i = 0; i < splitted.length; i++) {
+            split = splitted[i];
+            if(!split.equals("")){
+                if (split.contains("x^")) {
+                    indexX = split.indexOf("x");
+                    indexPow = split.indexOf("^");
+                    String start = split.substring(0, indexX);
+                    if (start.equals("") || start.equals("+")) coefficient = 1;
+                    else if (start.equals("-")) coefficient = -1;
+                    else coefficient = Double.parseDouble(start);
+                    pow = Integer.parseInt(split.substring(indexPow + 1));
+                }
+                else if (split.contains("x")) {
+                    indexX = split.indexOf("x");
+                    String c = split.substring(0, indexX);
+                    if (c.equals("") || c.equals("+")) coefficient = 1;
+                    else if (c.equals("-")) coefficient = -1;
+                    else coefficient = Double.parseDouble(c);
+                    pow = 1;
+                }
+                else {
+                    coefficient = Double.parseDouble(split);
+                    pow = 0;
+                }
+                polynom[pow] += coefficient;
+            }
+        }
+        return polynom;
+    }
+    public static double[] makeArr(String[] splitted) {
+            int maxPow = 0;
+            for (int i = 0; i < splitted.length; i++) {
+                String temp = splitted[i];
+
+                if (temp.contains("^")) {
+                    int pow = Integer.parseInt (temp.substring(temp.indexOf("^") + 1));
+                    if (pow > maxPow) maxPow = pow;
+                }
+                else if (temp.contains("x")) {
+                    if (maxPow < 1) maxPow = 1;
+                }
+            }
+            double[] ans = new double[maxPow + 1];
+            return ans;
     }
 
     /**
