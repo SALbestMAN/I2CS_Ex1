@@ -253,9 +253,18 @@ public class Ex1 {
      */
     public static double area(double[] p1, double[] p2, double x1, double x2, int numberOfTrapezoid) {
         double ans = 0;
-        /** add you code below
-
-         /////////////////// */
+        double dis = (x2 - x1) / numberOfTrapezoid;
+        double lastX = x1;
+        double lastY = Math.abs(f(p1, lastX) - f(p2, lastX));
+        double currentX, currentY , area;
+        for (int i = 0; i < numberOfTrapezoid; i++) {
+            currentX = lastX+dis;
+            currentY = Math.abs(f(p1, currentX) - f(p2, currentX));
+            area = (currentY+lastY)/2 * dis;
+            ans += area;
+            lastX = currentX;
+            lastY = currentY;
+        }
         return ans;
     }
 
@@ -270,7 +279,8 @@ public class Ex1 {
     public static double[] getPolynomFromString(String p) {
         double[] ans = ZERO;//  -1.0x^2 +3.0x +2.0
         /** add you code below
-
+         *
+         */
          /////////////////// */
         return ans;
     }
