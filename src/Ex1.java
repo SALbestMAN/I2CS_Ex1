@@ -30,7 +30,7 @@ public class Ex1 {
      *      (It starts as 1 because x^0 = 1), and in every loop we multiply it by x
      *      so next time it becomes x^1, x^2, x^3...
      *   3. Inside the loop we just take the coefficient poly[i] and multiply it
-     *      by the current power and add everything to "ans" :)
+     *      by the current power and add everything to "ans" :).
      *   4. and lastly we return "ans" which is the polynomial function's value at x.
      *
      * @param poly - polynomial function
@@ -91,7 +91,7 @@ public class Ex1 {
      * The solution is based on: //	http://stackoverflow.com/questions/717762/how-to-calculate-the-vertex-of-a-parabola-given-three-points
      * Note: this function only works for a set of points containing up to 3 points, else returns null.
      *
-     * This function is supposed to take a few points on the XY-plane
+     * This function is supposed to take a few points on the XY-plane.
      * and return the polynomial that passes through them.
      *
      * - How does it work?
@@ -102,8 +102,8 @@ public class Ex1 {
      *   5. Otherwise the input is not supported so the function returns null.
      *
      * - How does "polynom2Points" work?
-     *   1. we compute the slope "a" using the classic formula a = (y2 - y1) / (x2 - x1)
-     *   2. Then I find "b" by plugging one of the points: b = y1 - a * x1
+     *   1. we compute the slope "a" using the classic formula a = (y2 - y1) / (x2 - x1).
+     *   2. Then I find "b" by plugging one of the points: b = y1 - a * x1 .
      *   3. I return the polynomial as {b, a} (which means b is the constant term, a is the x^1 coefficient).
      *
      * - How does "polynom3Points" work?
@@ -213,7 +213,7 @@ public class Ex1 {
 
     /**
      * Computes a String representing the polynomial function.
-     * For example the array {2,0,3.1,-1.2} will be presented as the following String  "-1.2x^3 +3.1x^2 +2.0"
+     * For example the array {2,0,3.1,-1.2} will be presented as the following String  "-1.2x^3 +3.1x^2 +2.0"/.
      *
      * This function builds a String that represents the polynomial nicely.
      * Like if I have the array {2, 0, 3.1, -1.2} the result will look like:  "-1.2x^3 +3.1x^2 +2.0".
@@ -227,7 +227,7 @@ public class Ex1 {
      *      (Because there's nothing to print lol).
      *   3. Otherwise, we loop from the highest power to the lowest.
      *      For each index i:
-     *      - if poly[i] == 0 → I skip it because zero terms don’t show up in the final string.
+     *      - if poly[i] == 0 we skip it because zero terms don’t show up in the final string.
      *      - if i == 0  this is the constant term, so we add fixed[i] only.
      *      - if i == 1  this is the x term, so we add fixed[i] + "x".
      *      - if i >= 2  this is x^i, so we add fixed[i] + "x^" + i.
