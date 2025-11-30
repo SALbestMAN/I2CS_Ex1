@@ -31,6 +31,7 @@ class Ex1Test {
 		assertEquals(fx1, 4, Ex1.EPS);
 		assertEquals(fx2, 6, Ex1.EPS);
 	}
+
 	@Test
 	/**
 	 * Tests that p1(x) + p2(x) == (p1+p2)(x)
@@ -200,5 +201,358 @@ class Ex1Test {
 		double a1 = Ex1.area(po_a,po_b, x1, 6, 8);
 		double area = 58.5658;
 		assertEquals(a1,area, Ex1.EPS);
+	}
+
+
+
+
+
+	@Test
+	/**
+	 * Tests that f(x) returns 0 for the zero polynomial.
+	 */
+	void testF_zeroPoly() {
+		double[] p = {0,0,0,0};
+		assertEquals(0, Ex1.f(p, 0), Ex1.EPS);
+		assertEquals(0, Ex1.f(p, 10), Ex1.EPS);
+		assertEquals(0, Ex1.f(p, -5), Ex1.EPS);
+	}
+	@Test
+	/**
+	 * Tests f(x) with negative x values.
+	 */
+	void testF_negativeX() {
+		double[] p = {3, -2, 1};
+		assertEquals(6, Ex1.f(p, -1), Ex1.EPS);
+		assertEquals(11, Ex1.f(p, -2), Ex1.EPS);
+	}
+
+	@Test
+	/**
+	 * Tests that f(x) returns 0 for the zero polynomial.
+	 */
+	void testF_zeroPolynomial() {
+		double[] p = {0,0,0,0};
+		assertEquals(0, Ex1.f(p, 0), Ex1.EPS);
+		assertEquals(0, Ex1.f(p, 10), Ex1.EPS);
+		assertEquals(0, Ex1.f(p, -5), Ex1.EPS);
+	}
+
+
+
+
+
+	@Test
+	/**
+	 * Tests root_rec on a simple linear polynomial p(x)=x-3.
+	 */
+	void testRootRec_1() {
+		double[] p = {-3, 1};
+		double root = Ex1.root_rec(p, 0, 5, Ex1.EPS);
+		assertEquals(3, root, Ex1.EPS);
+	}
+	@Test
+	/**
+	 * Tests root_rec on a quadratic polynomial p(x)=x^2-4.
+	 */
+	void testRootRec_2() {
+		double[] p = {-4, 0, 1}; // x^2 - 4
+		double root = Ex1.root_rec(p, 1, 3, Ex1.EPS);
+		assertEquals(2, root, Ex1.EPS);
+	}
+
+
+
+
+
+	@Test
+	/**
+	 * Tests PolynomFromPoints with exactly 2 points.
+	 */
+	void testPolynomFromPoints_twoPoints() {
+		double[] xx = {0, 1};
+		double[] yy = {2, 4};
+		double[] expected = {2, 2};
+		double[] poly = Ex1.PolynomFromPoints(xx, yy);
+		assertTrue(Ex1.equals(expected, poly));
+	}
+	@Test
+	/**
+	 * Tests PolynomFromPoints with 3 points (should call polynom3Points).
+	 */
+	void testPolynomFromPoints_threePoints() {
+		double[] xx = {0, 1, 2};
+		double[] yy = {1, 3, 7}; // from y = x^2 + x + 1
+		double[] expected = {1, 1, 1}; // C=1, B=1, A=1
+		double[] poly = Ex1.PolynomFromPoints(xx, yy);
+		assertTrue(Ex1.equals(expected, poly));
+	}
+
+
+
+
+
+	@Test
+	/**
+	 * Tests equals for polynomials that become identical after trimming zeros.
+	 */
+	void testEquals_1() {
+		double[] p1 = {2, 3, 0, 0};
+		double[] p2 = {2, 3};// should be true (obv lol)
+		assertTrue(Ex1.equals(p1, p2));
+	}
+
+	@Test
+	/**
+	 * Tests equals when coefficients differ more than EPS.
+	 */
+	void testEquals_2() {
+		double[] p1 = {1, 2, 3};
+		double[] p2 = {1, 2 + Ex1.EPS*2, 3}; // should be false
+		assertFalse(Ex1.equals(p1, p2));
+	}
+
+
+
+
+
+	@Test
+	/**
+	 * Tests poly() with a polynomial that has positive and negative coefficients.
+	 */
+	void testPoly_mixedSigns() {
+		double[] p = {2, -3, 1};
+		           // 1x^2 -3x +2
+		String expected = "1.0x^2 -3.0x +2.0";
+		assertEquals(expected, Ex1.poly(p));
+	}
+
+	@Test
+	/**
+	 * Tests poly() skipping zero coefficients in the middle.
+	 */
+	void testPoly_withZeros() {
+		double[] p = {5, 0, -2, 0, 1};
+		           // 1x^4 -2x^2 +5
+		String expected = "1.0x^4 -2.0x^2 +5.0";
+		assertEquals(expected, Ex1.poly(p));
+	}
+
+
+
+
+
+	@Test
+/**
+ * Tests sameValue on two simple linear polynomials that intersect at x=3.
+ */
+	void testSameValue_simple() {
+		double[] p1 = {0, 1};
+		              // x
+		double[] p2 = {-3, 2};
+		            // 2x - 3
+		double sameValPoint = Ex1.sameValue(p1, p2, 0, 5, Ex1.EPS);
+		assertEquals(3, sameValPoint, Ex1.EPS);
+	}
+	@Test
+	/**
+	 * Tests that sameValue returns the same point when swapping p1 and p2.
+	 */
+	void testSameValue_samesame() {
+		double[] p1 = {1, -1};
+	      	     // = -x + 1
+		double[] p2 = {-1, 1};
+		          // = x - 1
+		// both functions intersect exactly at x = 1
+		double x1 = Ex1.sameValue(p1, p2, -5, 5, Ex1.EPS);
+		double x2 = Ex1.sameValue(p2, p1, -5, 5, Ex1.EPS);
+
+		assertEquals(1, x1, Ex1.EPS);
+		assertEquals(1, x2, Ex1.EPS);
+		assertEquals(x1, x2, Ex1.EPS);
+	}
+
+
+
+
+
+	@Test
+	/**
+	 * Tests length() on f(x)=x .
+	 */
+	void testLength_1() {
+		double[] p = {0,1};
+		             // x
+		// distance from (0,0) to (3,3)
+		double expected = Math.sqrt(18);
+		double len = Ex1.length(p, 0, 3, 10);
+		assertEquals(expected, len, Ex1.EPS);
+	}
+
+	@Test
+	/**
+	 * Tests length() on f(x)=x+2.
+	 * The exact distance from (0,2) to (4,6) is sqrt(32).
+	 */
+	void testLength_2() {
+		double[] p = {2, 1};
+		          // =1*x + 2
+		// distance from (0,2) to (4,6)
+		double expected = Math.sqrt(32);
+		double len = Ex1.length(p, 0, 4, 20);
+		assertEquals(expected, len, Ex1.EPS);
+	}
+
+
+
+
+
+	@Test
+	/**
+	 * Tests area() when the difference between p1 and p2 is constant.
+	 */
+	void testArea_simple() {
+		double[] p1 = {5};
+		            // 5
+		double[] p2 = {2};
+		            // 2
+		double expected = 12;  // (5-2)*4
+		double a = Ex1.area(p1, p2, 0, 4, 10);
+		assertEquals(expected, a, Ex1.EPS);
+	}
+
+	@Test
+	/**
+	 * Tests area() between f(x)=x+3 and g(x)=x^2-2 on the interval [0,3].
+	 * The exact area is 10.5.
+	 */
+	void testArea_simple2() {
+		double[] p1 = {3, 1};
+		            // x+3
+		double[] p2 = {-2, 0, 1};
+		            // x^2-2
+		double expected = 10.5;
+		double a = Ex1.area(p1, p2, 0, 3, 200);
+
+		assertEquals(expected, a, Ex1.EPS);
+	}
+
+
+
+
+
+	@Test
+	/**
+	 * Tests getPolynomFromString on 3.0x^2 +2.0x -1.0
+	 */
+	void testGetPolynomFromString_1() {
+		String s = "3.0x^2 +2.0x -1.0";
+		double[] expected = {-1.0, 2.0, 3.0};
+		                 // {  C ,  B ,  A }
+		double[] result = Ex1.getPolynomFromString(s);
+		assertTrue(Ex1.equals(expected, result));
+	}
+
+	@Test
+	/**
+	 * Tests getPolynomFromString on "   4x^3   -   2x   +   1  ".
+	 */
+	void testGetPolynomFromString_2() {
+		String s = "   4x^3   -   2x   +   1  ";
+		double[] expected = {1, -2, 0, 4};   // 4x^3 -2x +1
+		double[] result = Ex1.getPolynomFromString(s);
+		assertTrue(Ex1.equals(expected, result));
+	}
+
+
+
+
+
+	@Test
+	/**
+	 * Tests add() with polynomials 3x^2 +2x +1 and 5x +4  .
+	 */
+	void testAdd_1() {
+		double[] p1 = {1, 2, 3};
+		            // 3x^2 +2x +1
+		double[] p2 = {4, 5};
+		            // 5x +4   → should become {4,5,0}
+		double[] expected = {5, 7, 3}; // (1+4), (2+5), (3+0)
+		double[] result = Ex1.add(p1, p2);
+		assertTrue(Ex1.equals(expected, result));
+	}
+
+	@Test
+/**
+ * Tests add() with polynomials x^2 -2x +3 and -2x^2 +4x -1
+ */
+	void testAdd_2() {
+		double[] p1 = {3, -2, 1};
+		            // x^2 -2x +3
+		double[] p2 = {-1, 4, -2};
+		           // -2x^2 +4x -1
+		double[] expected = {2, 2, -1}; // (3-2), (-2+4), (1-2)
+		double[] result = Ex1.add(p1, p2);
+		assertTrue(Ex1.equals(expected, result));
+	}
+
+
+
+
+
+	@Test
+	/**
+	 * Tests mul() on 3x + 2 and x + 1.
+	 */
+	void testMul_1() {
+		double[] p1 = {2, 3};
+		            // 3x + 2
+		double[] p2 = {1, 1};
+		             // x + 1
+		double[] expected = {2, 5, 3}; // 2 +5x +3x^2
+		double[] result = Ex1.mul(p1, p2);
+		assertTrue(Ex1.equals(expected, result));
+	}
+
+	@Test
+	/**
+	 * Tests mul() on x and x^2 + 1.
+	 */
+	void testMul_2() {
+		double[] p1 = {0, 1};
+		            // x
+		double[] p2 = {1, 0, 1};
+		            // x^2 + 1
+		double[] expected = {0, 1, 0, 1}; // x + x^3
+		double[] result = Ex1.mul(p1, p2);
+		assertTrue(Ex1.equals(expected, result));
+	}
+
+
+
+
+
+	@Test
+	/**
+	 * Tests derivative() on 2x^2 -3x +5
+	 */
+	void testDerivative_1() {
+		double[] p = {5, -3, 2};
+		           // 2x^2 -3x +5
+		double[] expected = {-3, 4}; // -3 +4x
+		double[] result = Ex1.derivative(p);
+		assertTrue(Ex1.equals(expected, result));
+	}
+
+	@Test
+	/**
+	 * Tests derivative() on 2x^2 -3x +5
+	 */
+	void testDerivative_2() {
+		double[] p = {-4, 0, 7, -1};
+		          // -x^3 +7x^2 +0x -4
+		double[] expected = {0, 14, -3}; // 14x-3x^2
+		double[] result = Ex1.derivative(p);
+		assertTrue(Ex1.equals(expected, result));
 	}
 }
