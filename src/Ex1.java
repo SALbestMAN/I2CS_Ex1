@@ -341,10 +341,17 @@ public class Ex1 {
      * @return
      */
     public static double[] add(double[] p1, double[] p2) {
-        double[] ans = ZERO;//
-        /** add you code below
+        if (p1.length > p2.length) {
+            p2 = fixArr(p1, p2);
+        }
+        if (p1.length < p2.length) {
+            p1 = fixArr(p2, p1);
+        }
+        double[] ans = new double[p1.length];//
 
-         /////////////////// */
+        for (int i = 0; i < p1.length; i++) {
+            ans[i] = p1[i] + p2[i];
+        }
         return ans;
     }
 
